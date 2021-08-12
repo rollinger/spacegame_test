@@ -1,0 +1,10 @@
+# Create the project
+# Add the assets
+OK   Add a background
+OK   Add earth-moon system
+    OK   Orbit
+    OK   Gravity
+O   Add player ship
+    O   Add control
+    O   Add script
+
