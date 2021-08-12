@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/exhaust2.png-dd5679354a167f5d3716c8af537a3095.stex"
+path="res://.import/exhaust2.png-56d59fe2b2b12977e0f94b587e7fd7ac.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Ship6/Exhaust/Turbo_flight/Exhaust1/exhaust2.png"
-dest_files=[ "res://.import/exhaust2.png-dd5679354a167f5d3716c8af537a3095.stex" ]
+source_file="res://assets/exhaust2.png"
+dest_files=[ "res://.import/exhaust2.png-56d59fe2b2b12977e0f94b587e7fd7ac.stex" ]
 
 [params]
 
