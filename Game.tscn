@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/background.png" type="Texture" id=1]
 [ext_resource path="res://assets/256x256 Ocean - Clouds 4.png" type="Texture" id=2]
@@ -12,74 +12,72 @@
 [ext_resource path="res://assets/flamestart.mp3" type="AudioStream" id=10]
 [ext_resource path="res://assets/Fire1.wav" type="AudioStream" id=11]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 131.004
+[sub_resource type="Environment" id=1]
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 377.354
+radius = 131.004
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 31.5825
+radius = 377.354
 
 [sub_resource type="CircleShape2D" id=4]
+radius = 31.5825
+
+[sub_resource type="CircleShape2D" id=5]
 radius = 115.233
 
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 58.5151, 30.6135 )
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 28.08
+height = 58.9799
 
 [node name="Game" type="Node2D"]
+
+[node name="StarfieldBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="StarfieldBackground"]
+
+[node name="TextureRect" type="TextureRect" parent="StarfieldBackground/ParallaxLayer"]
+show_behind_parent = true
+margin_left = -2018.08
+margin_top = -1343.55
+margin_right = 1906.92
+margin_bottom = 1753.45
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -20.0
 autoplay = true
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-
-[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
-margin_right = 1022.0
-margin_bottom = 597.0
-texture = ExtResource( 1 )
-stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-visible = false
-texture = ExtResource( 1 )
-region_enabled = true
-
 [node name="PlanetarySystem" type="Node2D" parent="."]
 script = ExtResource( 5 )
 rotation_speed = -0.025
 
-[node name="Planet" type="RigidBody2D" parent="PlanetarySystem"]
-mass = 25.0
+[node name="Planet" type="StaticBody2D" parent="PlanetarySystem"]
 
 [node name="Surface" type="CollisionShape2D" parent="PlanetarySystem/Planet"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Image" type="Sprite" parent="PlanetarySystem/Planet"]
 texture = ExtResource( 2 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="GravityWell" type="Area2D" parent="PlanetarySystem/Planet"]
-space_override = 1
+space_override = 4
 gravity_point = true
 gravity_vec = Vector2( 0, 0 )
 linear_damp = 0.0
 angular_damp = 0.0
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="Shape" type="CollisionShape2D" parent="PlanetarySystem/Planet/GravityWell"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -87,11 +85,10 @@ __meta__ = {
 [node name="MoonOrbit" type="Node2D" parent="PlanetarySystem/Planet"]
 position = Vector2( 450, 450 )
 
-[node name="Moon" type="RigidBody2D" parent="PlanetarySystem/Planet/MoonOrbit"]
-mass = 2.0
+[node name="Moon" type="StaticBody2D" parent="PlanetarySystem/Planet/MoonOrbit"]
 
 [node name="Surface" type="CollisionShape2D" parent="PlanetarySystem/Planet/MoonOrbit/Moon"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -104,7 +101,9 @@ __meta__ = {
 }
 
 [node name="GravityWell" type="Area2D" parent="PlanetarySystem/Planet/MoonOrbit/Moon"]
+space_override = 4
 gravity_point = true
+gravity_distance_scale = 1.0
 gravity_vec = Vector2( 0, 0 )
 gravity = 11.0
 linear_damp = 0.0
@@ -114,29 +113,32 @@ __meta__ = {
 }
 
 [node name="Shape" type="CollisionShape2D" parent="PlanetarySystem/Planet/MoonOrbit/Moon/GravityWell"]
-shape = SubResource( 4 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="PlayerShip" type="KinematicBody2D" parent="."]
-position = Vector2( 811.84, 127.46 )
-script = ExtResource( 6 )
-
-[node name="Ship" type="Sprite" parent="PlayerShip"]
-texture = ExtResource( 3 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerShip"]
 shape = SubResource( 5 )
 __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="PlayerShip" type="KinematicBody2D" parent="."]
+pause_mode = 1
+position = Vector2( 244.67, 227.043 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Ship" type="Sprite" parent="PlayerShip"]
+texture = ExtResource( 3 )
+
 [node name="Camera2D" type="Camera2D" parent="PlayerShip"]
 current = true
+editor_draw_drag_margin = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerShip"]
+position = Vector2( 1.19385, -0.278198 )
+rotation = 1.5708
+z_index = -1
+shape = SubResource( 6 )
 
 [node name="MainEngine" type="Node2D" parent="PlayerShip"]
 visible = false

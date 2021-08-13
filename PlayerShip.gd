@@ -13,7 +13,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	rotation += angular_moment * delta
-	move_and_slide( velocityVector )
+	move_and_collide( velocityVector * delta)
 	# Ship Forward thrust
 	if (Input.is_action_pressed("ship_up")):
 		velocityVector += Vector2(main_engine_pwr, 0).rotated(rotation)
